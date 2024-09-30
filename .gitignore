@@ -1,0 +1,4 @@
+magenv
+*.pyc
+.env
+.DS_Store
