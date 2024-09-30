@@ -59,7 +59,7 @@ app = dash.Dash(__name__, external_stylesheets=[
 
 app.title = "MAG COP Trainer"
 
-BUTTON_MARGIN = '10px'
+BUTTON_MARGIN = '5px'
 BUTTON_WIDTH = '100px'
 BUTTON_HEIGHT = '50px'
 # App Start =======================================================================
@@ -112,15 +112,17 @@ app.layout = html.Div(children=[
             dbc.Button('H', id={'type': 'Value_Button', 'index': 7},
                        className='btn, btn-primary', color='Primary', style={'margin-left': BUTTON_MARGIN, 'width': BUTTON_WIDTH, 'height': BUTTON_HEIGHT}),
             dbc.Button('I', id={'type': 'Value_Button', 'index': 8},
+                       className='btn, btn-primary', color='Primary', style={'margin-left': BUTTON_MARGIN, 'width': BUTTON_WIDTH, 'height': BUTTON_HEIGHT}),
+            dbc.Button('J', id={'type': 'Value_Button', 'index': 9},
                        className='btn, btn-primary', color='Primary', style={'margin-left': BUTTON_MARGIN, 'width': BUTTON_WIDTH, 'height': BUTTON_HEIGHT})
         ], style={'height': '10%', 'display': 'flex', 'justify-content': 'center', 'margin-top': '50px'}),
 
         html.Div(id='Next_Button_Div', children=[
             dbc.Button('Next Skill', id="Next_Button",
-                       className='btn, btn-secondary', color='Secondary', style={'width': '870px'}, n_clicks=0)
+                       className='btn, btn-secondary', color='Secondary', style={'width': '1000px'}, n_clicks=0)
         ], style={'display': 'flex', 'justify-content': 'center', 'margin-top': '20px'})
 
-    ], style={'margin-left': '10%', 'margin-right': '10%'}),
+    ], style={'margin-left': '5%', 'margin-right': '5%'}),
     dcc.Store(id='session_data'),
     dcc.Store(id='solution_data'),
     html.Div(id='test_out', children='')
@@ -160,7 +162,7 @@ def load_new_image(n_clicks, solution_data, event_filter_state):
         # Update Solution in Session Data
         solution_data_out['solution'] = solution
         value_map_dict = {"A": 0, "B": 1, "C": 2,
-                          "D": 3, "E": 4, "F": 5, "G": 6, "H": 7, "I": 8}
+                          "D": 3, "E": 4, "F": 5, "G": 6, "H": 7, "I": 8, "J":9}
         solution_data_out['solution_index'] = value_map_dict[solution]
         return('data:image/png;base64,{}'.format(encoded_image.decode()), json.dumps(solution_data_out))
 
@@ -218,12 +220,12 @@ def toggle_buttons(next_n_clicks, value_n_clicks):
         trigger = trigger["prop_id"].split(".")[0]
 
         if trigger != "Next_Button":
-            return([True]*9, False)
+            return([True]*10, False)
 
         else:
-            return([False]*9, True)
+            return([False]*10, True)
 
-    return([True] * 9, False)
+    return([True] * 10, False)
 
 
 # Changes button colors to signify which button is correct.
@@ -250,8 +252,8 @@ def change_button_colors(value_n_clicks, next_n_clicks, solution_data):
                 trigger["prop_id"].split(".")[0])["index"]
             solution_data = json.loads(solution_data)
 
-            out_state = ["btn-primary"] * 9
-            text_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+            out_state = ["btn-primary"] * 10
+            text_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I','J']
             # Correct solution
             if selected_index == solution_data['solution_index']:
                 out_state[selected_index] = "btn-success"
@@ -263,7 +265,7 @@ def change_button_colors(value_n_clicks, next_n_clicks, solution_data):
                 text_list[selected_index] = "Incorrect"
                 text_list[solution_data['solution_index']] = "Correct"
                 return(out_state, text_list)
-    return(["btn-primary"] * 9, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'])
+    return(["btn-primary"] * 10, ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I','J'])
 
 
 # Changes color of event filter buttons when pressed
