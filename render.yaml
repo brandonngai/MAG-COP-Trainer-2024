@@ -1,8 +1,10 @@
 version: 1
 services:
   - type: web
-    name: MAG-COP-Trainer-2024
+    name: MAG Trainer
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: python app.py
+    buildCommand: conda env create -f environment.yml
+    startCommand: conda run -n MAGTrainer python app.py
+    autoDeploy: true
+    restartPolicy: always
